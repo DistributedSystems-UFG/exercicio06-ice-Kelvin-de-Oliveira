@@ -7,7 +7,7 @@ public class Client {
 
             // 2. Create a proxy to the remote 'Printer' object
             // Replace '10.0.0.5' with the actual IP of your ICE server
-            ObjectPrx base = communicator.stringToProxy("SimplePrinter:default -h 98.90.53.6 -p 5678");
+            ObjectPrx base = communicator.stringToProxy("SimplePrinter:default -h localhost -p 5678");
 
             // 3. Downcast the proxy to the Printer interface
             Demo.PrinterPrx printer = Demo.PrinterPrx.checkedCast(base);
@@ -16,9 +16,15 @@ public class Client {
                 throw new Error("Invalid proxy");
             }
 
-            // 4. Call the remote method
+            // 4. Call the remote methods
             String response = printer.printString("Hello from Goiania!");
             System.out.println("Server responded: " + response);
+
+            String upperResponse = printer.printUpperCase("Hello from Goiania!");
+            System.out.println("Server responded: " + upperResponse);
+
+            int count = printer.getJobCount();
+            System.out.println("Job count: " + count);
 
         } catch (LocalException e) {
             e.printStackTrace();
